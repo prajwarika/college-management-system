@@ -1,0 +1,29 @@
+server:
+  port: 8000 # This is the port your React app will talk to
+
+spring:
+  application:
+    name: api-gateway
+  main:
+    web-application-type: reactive # Gateway is built on Project Reactor (non-blocking)
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # Automatically creates routes based on service names in Eureka
+          lower-case-service-id: true
+      # Manual Routes (For better control)
+      routes:
+        - id: student-service
+          uri: lb://student-service # 'lb' means Load Balanced via Eureka
+          predicates:
+            - Path=/student/**
+        - id: department-service
+          uri: lb://department-service
+          predicates:
+            - Path=/department/** 
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
