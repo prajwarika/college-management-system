@@ -16,7 +16,6 @@ import com.cms.student.entity.Student;
 import com.cms.student.service.StudentService;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/student")
@@ -42,5 +41,10 @@ public class StudentController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<FullStudentResponse> getFullStudentDetails(@PathVariable Long id) {
 	    return ResponseEntity.ok(studentService.getStudentWithDepartment(id));
+	}
+	
+	@GetMapping("/rollNo/{rollNo}")
+	public ResponseEntity<Student> getStudentByRollNo(@PathVariable String rollNo) {
+		return ResponseEntity.ok(studentService.getStudentByRollNo(rollNo));
 	}
 }

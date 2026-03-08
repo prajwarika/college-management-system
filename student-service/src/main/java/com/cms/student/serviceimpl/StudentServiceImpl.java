@@ -48,4 +48,10 @@ public class StudentServiceImpl implements StudentService {
 	    // 3. Combine and Return
 	    return new FullStudentResponse(student, department);
 	}
+
+	@Override
+	public Student getStudentByRollNo(String rollNo) {
+		// TODO Auto-generated method stub
+		return studentRepo.findByRollNumber(rollNo).orElseThrow(() -> new ResourceNotFoundException("Student Not Found!!"));
+	}
 }
