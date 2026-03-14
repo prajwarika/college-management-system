@@ -10,4 +10,5 @@ public interface StudentService {
 	Student saveStudent(Student student);
 	List<Student> getAllStudents();
 	FullStudentResponse getStudentWithDepartment(Long studentId);
+	Student getStudentByRollNo(String rollNo);
 }

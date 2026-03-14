@@ -5,23 +5,33 @@ spring:
   application:
     name: api-gateway
   main:
-    web-application-type: reactive # Gateway is built on Project Reactor (non-blocking)
+    web-application-type: reactive # Gateway is built on Project Reactor
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: true # Automatically creates routes based on service names in Eureka
+          enabled: true 
           lower-case-service-id: true
-      # Manual Routes (For better control)
+      # Manual Routes with Security Filters
       routes:
         - id: student-service
-          uri: lb://student-service # 'lb' means Load Balanced via Eureka
+          uri: lb://student-service 
           predicates:
             - Path=/student/**
+          filters:
+            - AuthenticationFilter # Protects all student endpoints
+
         - id: department-service
           uri: lb://department-service
           predicates:
             - Path=/department/** 
+          filters:
+            - AuthenticationFilter # Protects all department endpoints
+
+        - id: identity-service
+          uri: lb://identity-service
+          predicates:
+            - Path=/auth/** # No filter here: /register and /token must be public
 
 eureka:
   client:
